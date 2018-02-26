@@ -40,7 +40,7 @@ router.post('/signin', function(req, res) {
         if (isMatch && !err) {
           res.status(200).json({status: true, message: 'User exist', data : user});
         } else {
-          res.status(401).send({status: false, mesasge: 'Authentication failed. Wrong password.'});
+          res.status(401).json({status: false, message: 'Authentication failed. Wrong password.'});
         }
       });
     }
