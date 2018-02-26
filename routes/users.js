@@ -40,7 +40,7 @@ router.post('/signin', function(req, res) {
         if (isMatch && !err) {
           res.status(200).json({status: "true", message: 'User exist', data : user});
         } else {
-          res.status(401).json({status: "false", message: 'Authentication failed. Wrong password.'});
+          res.status(200).json({status: "false", message: 'Authentication failed. Wrong password.'});
         }
       });
     }
@@ -54,7 +54,7 @@ router.post('/signinWithToken', function(req, res) {
     if (err) throw err;
 
     if (!user) {
-      res.status(401).send({status: false, message: 'Authentication failed. User not found.'});
+      res.status(200).send({status: false, message: 'Authentication failed. User not found.'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
@@ -64,7 +64,7 @@ router.post('/signinWithToken', function(req, res) {
           // return the information including token as JSON
           res.json({status: true, token: 'JWT ' + token});
         } else {
-          res.status(401).send({status: false, mesasge: 'Authentication failed. Wrong password.'});
+          res.status(201).send({status: false, mesasge: 'Authentication failed. Wrong password.'});
         }
       });
     }
