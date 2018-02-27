@@ -9,7 +9,7 @@ var User = require("../models/user");
 
 router.post('/signup', function(req, res) {
   if (!req.body.email || !req.body.password || !req.body.name || !req.body.phoneNumber) {
-    res.json({status: false, message: 'Field cannot be blank!'});
+    res.status(201).json({status: false, message: 'Field cannot be blank!'});
   } else {
     var newUser = new User({
       email: req.body.email,
@@ -20,7 +20,7 @@ router.post('/signup', function(req, res) {
     // save the user
     newUser.save(function(err) {
       if (err) {
-        return res.status(401).json({status: false, message: 'Email already exists.'});
+        return res.status(201).json({status: false, message: 'Email already exists.'});
       }
       res.status(200).json({status: true, message: 'Successful created new user.'});
     });
@@ -33,14 +33,14 @@ router.post('/signin', function(req, res) {
   }, function(err, user) {
     if (err) throw err;
     if (!user) {
-      res.status(401).send({status: false, message: 'Authentication failed. User not found.'});
+      res.status(201).send({status: false, message: 'Authentication failed. User not found.'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (isMatch && !err) {
-          res.status(200).json({status: "true", message: 'User exist', data : user});
+          res.status(200).json({status: true, message: 'User exist', data : user});
         } else {
-          res.status(200).json({status: "false", message: 'Authentication failed. Wrong password.'});
+          res.status(200).json({status: false, message: 'Authentication failed. Wrong password.'});
         }
       });
     }
@@ -62,7 +62,7 @@ router.post('/signinWithToken', function(req, res) {
           // if user is found and password is right create a token
           var token = jwt.sign(user, config.secret);
           // return the information including token as JSON
-          res.json({status: true, token: 'JWT ' + token});
+          res.status(201).json({status: true, token: 'JWT ' + token});
         } else {
           res.status(201).send({status: false, mesasge: 'Authentication failed. Wrong password.'});
         }

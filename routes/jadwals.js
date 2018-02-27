@@ -28,7 +28,7 @@ router.post('/',function(req, res){
     jadwal.ruang = req.body.ruang;
     jadwal.save(function(err, savedJadwal) {
         if(err){
-            res.status(500).send({
+            res.status(200).send({
                 status : false,
                 message : "Error, Couldn't save jadwal"
             }); 
@@ -44,7 +44,7 @@ router.post('/',function(req, res){
 router.get('/', function(req, res) {
     Jadwal.find({},(err, jadwals) => {
         if (err) {
-            res.status(500).send({
+            res.status(200).send({
                 status : false,
                 message : "Error, Couldn't fetch jadwals"
             }); 
@@ -57,7 +57,7 @@ router.get('/', function(req, res) {
 router.put('/:id',function(req, res,next){
     Jadwal.findByIdAndUpdate(req.params.id, req.body, (err, jadwal) => {
             if(err){
-                res.status(500).send({
+                res.status(200).send({
                     status : false,
                     message : "Jadwal Id not found"
                 }); 
@@ -74,7 +74,7 @@ router.put('/:id',function(req, res,next){
 router.delete('/:id',function(req, res){
      Jadwal.findByIdAndRemove(req.params.id, req.body, (err) => {
             if(err){
-                res.status(500).send({
+                res.status(200).send({
                     status : false,
                     message : "Cannot delete, ID not found"
                 }); 
