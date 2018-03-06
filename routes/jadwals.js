@@ -22,6 +22,7 @@ router.use(function timeLog (req,res,next) {
 
 router.post('/',function(req, res){
     var jadwal = new Jadwal();
+    jadwal.userId = req.body.userId;
     jadwal.kelas = req.body.kelas;
     jadwal.hari = req.body.hari;
     jadwal.matkul = req.body.matkul;
@@ -49,7 +50,20 @@ router.get('/', function(req, res) {
                 message : "Error, Couldn't fetch jadwals"
             }); 
         } else {
-            res.send(jadwals);
+            res.status(200).send(jadwals);
+        }
+    });
+});
+
+router.get('/:userId', function(req, res) {
+    Jadwal.find({userId : req.params.userId},(err, jadwal) => {
+        if (err) {
+            res.status(200).send({
+                status : false,
+                message : "Error, Id Not Found"
+            }); 
+        } else {
+            res.status(200).send(jadwal);
         }
     });
 });
